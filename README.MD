@@ -21,10 +21,10 @@ pip install -e .
 │ 
 ├── dataset                                 # Data set files used by the code
 │ ├── polymer_solar_cell_curated_data.xlsx  # Contains curated PSC data
-│ └── polymer_solar_cell_extracted_data.csv # Contains PSC data extracted by the NLP pipeline described in Ref. [[1]](https://www.nature.com/articles/s41524-023-01003-w)
+│ └── polymer_solar_cell_extracted_data.csv # Contains PSC data extracted by the NLP pipeline described in Ref. [1]
 └── metadata                                # Additional files required by the code
   ├── fp_dict.pkl                           # Pickle file of features for each donor and acceptor which is used as input to the ML model
-  ├── normalized_polymer_dictionary.json    # Dictionary of polymer names and common variations in their names found in the literature obtained using the pipeline described in Ref [[2]](https://pubs.acs.org/doi/abs/10.1021/acs.jcim.1c00554)
+  ├── normalized_polymer_dictionary.json    # Dictionary of polymer names and common variations in their names found in the literature obtained using the pipeline described in Ref [2]
   └── property_metadata.json                # Dictionary of common variations in name for several material properties and associated metadata like commonly used units.
   
  ```
