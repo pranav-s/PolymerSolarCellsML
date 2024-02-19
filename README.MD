@@ -16,16 +16,16 @@ pip install -e .
 
 ## Repository structure
 
-├── PolymerSolarCellsML # All source code for the current project
+.
+├── PolymerSolarCellsML                     # All source code for the current project
 │ 
-├── dataset # Data set files used by the code
-│ ├── polymer_solar_cell_curated_data.xlsx # Contains curated PSC data
+├── dataset                                 # Data set files used by the code
+│ ├── polymer_solar_cell_curated_data.xlsx  # Contains curated PSC data
 │ └── polymer_solar_cell_extracted_data.csv # Contains PSC data extracted by the NLP pipeline described in Ref. [1]
-├── metadata # Additional files required by the code
-  ├── fp_dict.pkl # Pickle file of features for each donor and acceptor used in this work which is used as input to the ML model
-  └── normalized_polymer_dictionary.json # Dictionary of polymer names and common variations in their names 
-found in the literatured obtained using the pipeline described in Ref [[2]](https://pubs.acs.org/doi/abs/10.1021/acs.jcim.1c00554)
-  └── property_metadata.json # Dictionary of common variations in name for several material properties and associated metadata like commonly used units.
+├── metadata                                # Additional files required by the code
+  ├── fp_dict.pkl                           # Pickle file of features for each donor and acceptor used in work which is used as input to the ML model
+  └── normalized_polymer_dictionary.json    # Dictionary of polymer names and common variations in their names found in the literature l      |                                             obtained using the pipeline described in Ref [[2]](https://pubs.acs.org/doi/abs/10.1021/acs.jcim.1c00554)
+  └── property_metadata.json                # Dictionary of common variations in name for several material properties and associated metadata like                                          commonly used units.
 
 
 ## Usage
