@@ -48,7 +48,6 @@ class ThomSampPolymerSingle:
         super(ThomSampPolymerSingle, self).__init__(args=args)
         self.args = args
         self.time_steps = 300 # Arbitrary number chosen for test purposes, can also pick as a fraction of the total dataset
-        self.plot_full_featuremap=False
         self.features_to_plot = 10
 
         

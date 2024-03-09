@@ -1,6 +1,6 @@
 # Polymer Solar Cells Machine learning
 
-This repo contains code for the paper 'Accelerating materials discovery for polymer solar cells: Data-driven insights enabled by natural language processing'. This paper releases a data set of polymer solar cell (PSC) device characteristics that are extracted using the NLP pipeline described in Ref. [[1]](https://www.nature.com/articles/s41524-023-01003-w) and curated manually. In the paper, we trained machine learning models to predict power conversion efficiency (PCE) of PSCs. We also simulated several active learning strategies to pick out optimal donor/acceptor pairs with high PCE. We compared that against against how the field actually evolved. This exercise gave an estimate of how much faster the field could have evolved and generated several interesting insights. The code and data to reproduce our experiments is provided in this repo.
+This repo contains code for the paper 'Accelerating materials discovery for polymer solar cells: Data-driven insights enabled by natural language processing' [[1]](https://arxiv.org/abs/2402.19462). This paper releases a data set of polymer solar cell (PSC) device characteristics that are extracted using the NLP pipeline described in Ref. [[2]](https://www.nature.com/articles/s41524-023-01003-w) and curated manually. In the paper, we trained machine learning models to predict power conversion efficiency (PCE) of PSCs. We also simulated several active learning strategies to pick out optimal donor/acceptor pairs with high PCE. We compared that against against how the field actually evolved. This exercise gave an estimate of how much faster the field could have evolved and generated several interesting insights. The code and data to reproduce our experiments is provided in this repo.
 
 ## Requirements and Setup
 
@@ -21,10 +21,10 @@ pip install -e .
 │ 
 ├── dataset                                 # Data set files used by the code
 │ ├── polymer_solar_cell_curated_data.xlsx  # Contains curated PSC data
-│ └── polymer_solar_cell_extracted_data.csv # Contains PSC data extracted by the NLP pipeline described in Ref. [1]
+│ └── polymer_solar_cell_extracted_data.csv # Contains PSC data extracted by the NLP pipeline described in Ref. [2]
 └── metadata                                # Additional files required by the code
   ├── fp_dict.pkl                           # Pickle file of features for each donor and acceptor which is used as input to the ML model
-  ├── normalized_polymer_dictionary.json    # Dictionary of polymer names and common variations in their names found in the literature obtained using the pipeline described in Ref [2]
+  ├── normalized_polymer_dictionary.json    # Dictionary of polymer names and common variations in their names found in the literature obtained using the pipeline described in Ref. [3]
   └── property_metadata.json                # Dictionary of common variations in name for several material properties and associated metadata like commonly used units.
   
  ```
@@ -54,12 +54,18 @@ python ./PolymerSolarCellsML/nlp_eval.py
 Please cite our paper if you use the code or data in this repo.
 
 ```latex
-To be added
+@article{shetty2024accelerating,
+  title={Accelerating materials discovery for polymer solar cells: Data-driven insights enabled by natural language processing},
+  author={Shetty, Pranav and Adeboye, Aishat and Gupta, Sonakshi and Zhang, Chao and Ramprasad, Rampi},
+  journal={arXiv preprint arXiv:2402.19462},
+  year={2024}
+}
 ```
 
 ## References
 
-[1] Shetty, P., Rajan, A., Kuenneth, C., Gupta, S., Panchumarti, L., Holm, L., Zhang, C. & Ramprasad, R.  A general-purpose material property data extraction pipeline from large polymer corpora using natural language processing. npj Computational Materials 9, 52 (2023) 
+[1] Shetty, P., Adeboye, A., Gupta, S., Zhang, C., & Ramprasad, R.. Accelerating materials discovery for polymer solar cells: Data-driven insights enabled by natural language processing. arXiv preprint arXiv:2402.19462 (2024)
 
-[2] Shetty, P., and Ramprasad R.. "Machine-Guided Polymer Knowledge Extraction Using Natural Language Processing: The Example of Named Entity Normalization." Journal of Chemical Information and Modeling (2021).
- 
+[2] Shetty, P., Rajan, A., Kuenneth, C., Gupta, S., Panchumarti, L., Holm, L., Zhang, C. & Ramprasad, R.  A general-purpose material property data extraction pipeline from large polymer corpora using natural language processing. npj Computational Materials 9, 52 (2023) 
+
+[3] Shetty, P., and Ramprasad R.. "Machine-Guided Polymer Knowledge Extraction Using Natural Language Processing: The Example of Named Entity Normalization." Journal of Chemical Information and Modeling (2021)
