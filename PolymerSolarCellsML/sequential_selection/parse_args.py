@@ -20,10 +20,10 @@ class Arguments:
         default='earliest', metadata={"help": "Mode for picking the simulated material history, use the median, or shortest, or longest path or earliest random seed"}
     )
     acceptor_type: str = field(
-        default='both', metadata={"help": "Acceptor type to use for the dataset, either FA, NFA or both"}
+        default='NFA', metadata={"help": "Acceptor type to use for the dataset, either FA, NFA or both"}
     )
     random_seed: int = field(
-        default=4020, metadata={"help": "Random seed"}
+        default=47, metadata={"help": "Random seed"}
     )
     alpha: float = field(
         default=1.0, metadata={"help": "Alpha value for the Thompson sampler"}
@@ -32,7 +32,7 @@ class Arguments:
         default='power conversion efficiency', metadata={"help": "Property to use for the sequential selection algorithm"}
     )
     gp_runs: int = field(
-        default=5, metadata={"help": "Number of runs to use for Gaussian process selection algorithms"}
+        default=10, metadata={"help": "Number of runs to use for Gaussian process selection algorithms"}
     )
     use_gpr_noise: bool = field(
         default=False, metadata={"help": "Use noise in the GPR model if True"}

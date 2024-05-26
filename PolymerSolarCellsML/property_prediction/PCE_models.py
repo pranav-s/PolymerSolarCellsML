@@ -82,7 +82,7 @@ class DonorAcceptorModel(PolymerDonorAcceptorBase):
         nonzero_count = 0
         donor_count = defaultdict(int)
         acceptor_count = defaultdict(int)
-        for column, donor in enumerate(donor_list): # Separated in this manner so that organic and polymer acceptors can be plotted separately
+        for column, donor in enumerate(donor_list):
             for row, acceptor in enumerate(acceptor_list):
                 if (donor, acceptor) in donor_acceptor_pairs:
                     donor_acceptor_frequencies[row][column] = np.median(donor_acceptor_pairs[(donor, acceptor)][self.property_name]) #donor_organic_acceptor_pairs[(donor, acceptor)]
@@ -98,7 +98,7 @@ class DonorAcceptorModel(PolymerDonorAcceptorBase):
         print(f'Top {self.top_predictions} donors = {list(donor_count_sorted)[:self.top_predictions]}')
         print(f'Top {self.top_predictions} acceptors = {list(acceptor_count_sorted)[:self.top_predictions]}')
         self._plot_heatmap(
-            donor_acceptor_frequencies, 'donor_acceptor_frequencies.png', donor_count_sorted, acceptor_count_sorted
+            donor_acceptor_frequencies, 'donor_acceptor_frequencies.png', donor_count_sorted, acceptor_count_sorted, print_top_k=4
         )
         return donor_list, acceptor_list
     
@@ -184,7 +184,7 @@ class DonorAcceptorModel(PolymerDonorAcceptorBase):
 
         return fp_dict, train_test_mask
 
-    def _plot_heatmap(self, pce, file_name, donor_count, acceptor_count):
+    def _plot_heatmap(self, pce, file_name, donor_count, acceptor_count, print_top_k=3):
         """Plot heatmap of PCE values for all donor acceptor pairs"""
         fig, ax = plt.subplots(figsize=(12, 5))
         sns.set(font_scale=2)
@@ -212,8 +212,8 @@ class DonorAcceptorModel(PolymerDonorAcceptorBase):
             spine.set_visible(True)
             spine.set_linewidth(2)
             spine.set_edgecolor('black')
-        ax.set_xticks(ticks=[donor_count[i][1] for i in range(3)], labels=[donor_count[i][0] for i in range(3)], fontsize=14)
-        ax.set_yticks(ticks=[acceptor_count[i][1] for i in range(3)], labels=[acceptor_count[i][0] for i in range(3)], fontsize=14)
+        ax.set_xticks(ticks=[donor_count[i][1] for i in range(print_top_k)], labels=[donor_count[i][0] for i in range(print_top_k)], fontsize=14)
+        ax.set_yticks(ticks=[acceptor_count[i][1] for i in range(print_top_k)], labels=[acceptor_count[i][0] for i in range(print_top_k)], fontsize=14)
         fig.savefig(
                     path.join(self.output_dir, file_name), format='png', bbox_inches='tight'
                    )

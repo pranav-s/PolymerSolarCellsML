@@ -186,8 +186,8 @@ class SampleEfficiencyBaselines:
     
     def run_all_baselines(self, X, y, material_list, starting_indices):
         """One run for each selection method"""
-        mode_list = ['GP-TS', 'prediction', 'GP-UCB', 'GP-PI', 'GP-EI']
-        mode_gp_ucb = ['beta_1', 'beta_decay_exp_0.25']
+        mode_list = ['GP-TS', 'prediction', 'GP-UCB', 'GP-PI', 'GP-EI', 'random']
+        mode_gp_ucb = ['beta_1']
         saturation_steps_dict = defaultdict(list)
         reward_history_dict = defaultdict(list)
         material_history_dict = defaultdict(list)
@@ -221,7 +221,7 @@ class SampleEfficiencyBaselines:
             # Plot model metrics
             if mode!='random':
                 fig, ax = plt.subplots()
-                mode_key = f'{mode}_beta_decay_exp_0.25' if mode=='GP-UCB' else mode
+                mode_key = f'{mode}_beta_1' if mode=='GP-UCB' else mode
                 model_stats = model_stats_dict[mode_key][0]
                 test_rmse_error = [model_stats[batch]['test_rmse_error'] for batch, _ in model_stats.items()]
                 test_r2_error = [model_stats[batch]['test_r2_error'] for batch, _ in model_stats.items()]

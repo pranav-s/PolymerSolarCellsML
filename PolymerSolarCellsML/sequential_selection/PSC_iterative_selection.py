@@ -144,7 +144,7 @@ class PSCMaterialSelection(ThomSampPolymerSingle, SampleEfficiencyBaselines): # 
 
     def augment_fp_dict(self):
         """For donor or acceptor not in the fp_dict, add the corresponding fingerprint"""
-        return self.donor_acceptor_base.generate_fp_dict( 
+        return self.donor_acceptor_base.generate_fp_dict(
                                                          data_dict_path=self.fp_dict_path, 
                                                          )
 
@@ -254,12 +254,38 @@ class PSCMaterialSelection(ThomSampPolymerSingle, SampleEfficiencyBaselines): # 
         
     def plot_results(self, X, material_list, dataset, max_steps_dict, reward_history_dict, material_history_dict, year_list, max_y):
         """Plot the results of the selection algorithms"""
+        def barchart(ax, data_dict, plt):
+            for key, speedup_list in data_dict.items():
+                ax.bar(key, np.mean(speedup_list), yerr=np.std(speedup_list), capsize=3)
+            plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
+            
+        def violin_plot(ax, data_dict, plt=None):
+            data_values = list(data_dict.values())
+            keys = list(data_dict.keys())
+            # violin_parts = ax.violinplot(data_values, showmeans=False, showmedians=False, showextrema=False)
+            # # Customize violin plot colors
+            # for pc in violin_parts['bodies']:
+            #     pc.set_facecolor('#1f77b4')
+            #     pc.set_edgecolor('black')
+            #     pc.set_alpha(1)
 
-        self.plot_maximum_common_substructure(dataset, material_history_dict, reward_history_dict)
+            # Create box plots
+            meanpointprops = dict(marker='x', markeredgecolor='black',
+                      markerfacecolor='firebrick', markersize=7)
+            boxprops = dict(linestyle='-', linewidth=2, facecolor='tan')
+            medianprops = dict(linestyle='-', linewidth=2.5, color='firebrick')
+            box_parts = ax.boxplot(data_values, patch_artist=True, showmeans=True, medianprops=medianprops, whiskerprops=dict(color='black', linewidth=2), capprops=dict(color='black', linewidth=2), boxprops=boxprops, meanprops=meanpointprops)
+            ax.yaxis.grid(True)
+            # Set the x-ticks to correspond to the keys in the dictionary
+            ax.set_xticks(range(1, len(keys) + 1))
+            ax.set_xticklabels(keys, rotation=45, ha="right", rotation_mode="anchor")
+
+        self.plot_histogram_year_ratio(max_steps_dict, year_list, plot_type=barchart)
+        self.plot_histogram_year_ratio(max_steps_dict, year_list, plot_type=violin_plot)
         self.plot_material_path(X=X, material_list=material_list, material_history_dict=material_history_dict, reward_history_dict=reward_history_dict)
-        self.plot_histogram_year_ratio(max_steps_dict, year_list)
-        self.plot_histogram_step_ratio(max_steps_dict)
         self.plot_output(reward_history_dict=reward_history_dict,year_list=year_list, max_y=max_y)
+        # self.plot_maximum_common_substructure(dataset, material_history_dict, reward_history_dict)
+        self.plot_histogram_step_ratio(max_steps_dict)
     
     def select_path(self, reward_history_list):
         """Select the path to plot from the list of paths"""
@@ -280,7 +306,7 @@ class PSCMaterialSelection(ThomSampPolymerSingle, SampleEfficiencyBaselines): # 
         """Plot the successive rewards of the entries picked by the algorithm"""
         plt.close()
         fig, ax = plt.subplots()
-        keep_list = ['GP-EI', 'ground_truth']
+        keep_list = ['prediction', 'ground_truth']
         ax.plot(year_list, [max_y]*len(reward_history_dict['ground_truth'][0]), '--', label='Maximum value')
         year_index = reward_history_dict['ground_truth'][0].index(max_y)
         
@@ -436,26 +462,29 @@ class PSCMaterialSelection(ThomSampPolymerSingle, SampleEfficiencyBaselines): # 
             fig.savefig(path.join(self.output_dir, f'mcs_donor_acceptor_{key}.png'))
             
 
-    def plot_histogram_year_ratio(self, max_steps_dict, year_list):
+    def plot_histogram_year_ratio(self, max_steps_dict, year_list, plot_type):
         """Compare the mean steps to find the desired property across settings"""
         fig, ax = plt.subplots()
-        include_list = ['GP-PI', 'GP-EI', 'GP-UCB_beta_decay_exp_0.25', 'prediction', 'contextual_bandits', 'GP-TS']
+        include_list = ['GP-PI', 'GP-EI', 'GP-UCB_beta_1', 'prediction', 'contextual_bandits', 'GP-TS', 'random']
         max_year_index = max_steps_dict['ground_truth'][0]
+        filtered_dict = dict()
         for key, value_list in max_steps_dict.items():
             if key in include_list:
                 speedup_list = [(year_list[max_year_index]-year_list[0])/(year_list[item]-year_list[0]) for item in value_list if item>3] # Arbitrary lower threshold introduced to prevent high variance values from dominating the plot
                 key = self.map_keys(key)
-                ax.bar(key, np.mean(speedup_list), yerr=np.std(speedup_list), capsize=3)
-        plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
+                filtered_dict[key] = speedup_list
+                # ax.bar(key, np.mean(speedup_list), yerr=np.std(speedup_list), capsize=3)
+        plot_type(ax, filtered_dict, plt) # Make a barchart or violin plot with box plot depending on the plot_type that is injected
+        # plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
         ax.set_ylabel('Discovery time speedup factor')
-        ax.set_ylim((1, 6))
-        fig.savefig(path.join(self.output_dir, f'final_comparison_years_plot_{self.args.property_name.replace(" ", "_")}_{self.args.acceptor_type}'), bbox_inches="tight")
+        ax.set_ylim((0, 5))
+        fig.savefig(path.join(self.output_dir, f'final_comparison_years_plot_{plot_type.__name__}_{self.args.property_name.replace(" ", "_")}_{self.args.acceptor_type}'), bbox_inches="tight")
         plt.close()
     
     def plot_histogram_step_ratio(self, max_steps_dict):
         """Compare the mean steps to find the desired property across settings"""
         fig, ax = plt.subplots()
-        include_list = ['GP-PI', 'GP-EI', 'GP-UCB_beta_decay_exp_0.25', 'prediction', 'contextual_bandits', 'GP-TS']
+        include_list = ['GP-PI', 'GP-EI', 'GP-UCB_beta_1', 'prediction', 'contextual_bandits', 'GP-TS', 'random']
         for key, value_list in max_steps_dict.items():
             if key in include_list:
                 speedup_list = [max_steps_dict['ground_truth'][0]/item for item in value_list if item>3] # Arbitrary lower threshold introduced to prevent high variance values from dominating the plot
@@ -485,7 +514,7 @@ class PSCMaterialSelection(ThomSampPolymerSingle, SampleEfficiencyBaselines): # 
     
     def plot_material_path(self, X, material_list, material_history_dict, reward_history_dict):
         """Plot the path taken by different methods in embedding space and show the actual structure on the material on the same plot for clarity. Compare against ground truth"""
-        model_list = ['GP-TS', 'GP-PI', 'GP-EI', 'GP-UCB_beta_decay_exp_0.25', 'prediction', 'contextual_bandits']
+        model_list = ['GP-TS', 'GP-PI', 'GP-EI', 'GP-UCB_beta_1', 'prediction', 'contextual_bandits']
         marker_size=20
         # Generate 2-D embedding of the material embeddings
         reducer = umap.UMAP(n_neighbors=10, n_components=2, min_dist=0.1, random_state=42)
@@ -503,7 +532,7 @@ class PSCMaterialSelection(ThomSampPolymerSingle, SampleEfficiencyBaselines): # 
 
             fig, ax = plt.subplots(figsize=(8, 6))
             cmap = cm.get_cmap('cool')
-            ax.scatter(umap_result[:, 0], umap_result[:, 1], c='green', label='Data Points', s=marker_size)
+            ax.scatter(umap_result[:, 0], umap_result[:, 1], c='gray', label='Data Points', s=marker_size)
 
             x_list, y_list = [], []
             reward_array = []
@@ -533,7 +562,10 @@ class PSCMaterialSelection(ThomSampPolymerSingle, SampleEfficiencyBaselines): # 
         out_key = key
         key_map = {'prediction': 'Greedy',
                    'GP-UCB_beta_decay_exp_0.25': 'GP-UCB',
-                   'ground_truth': 'Experimental data'}
+                   'GP-UCB_beta_1': 'GP-UCB',
+                   'contextual_bandits': 'Contextual Bandits',
+                   'ground_truth': 'Experimental data',
+                   'random': 'Random'}
         if key in key_map:
             out_key = key_map[key]
         return out_key
