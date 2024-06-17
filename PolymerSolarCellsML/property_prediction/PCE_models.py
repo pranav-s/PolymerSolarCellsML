@@ -98,7 +98,7 @@ class DonorAcceptorModel(PolymerDonorAcceptorBase):
         print(f'Top {self.top_predictions} donors = {list(donor_count_sorted)[:self.top_predictions]}')
         print(f'Top {self.top_predictions} acceptors = {list(acceptor_count_sorted)[:self.top_predictions]}')
         self._plot_heatmap(
-            donor_acceptor_frequencies, 'donor_acceptor_frequencies.png', donor_count_sorted, acceptor_count_sorted, print_top_k=4
+            donor_acceptor_frequencies, 'donor_acceptor_frequencies.png', donor_count_sorted, acceptor_count_sorted, print_top_k=3
         )
         return donor_list, acceptor_list
     
@@ -256,8 +256,8 @@ class DonorAcceptorModel(PolymerDonorAcceptorBase):
                     acceptor_count[(acceptor, row)]+=1
         donor_count_sorted = sorted(donor_count.items(), key = lambda x: x[1], reverse=True)
         acceptor_count_sorted = sorted(acceptor_count.items(), key = lambda x: x[1], reverse=True)
-        top_k = 4
-        idx_start = 20
+        top_k = 3
+        idx_start = 100
         idx_end = len(donor_count_sorted)
         # Swap the top k donors evenly across the key list
         for i in range(top_k):
@@ -266,6 +266,7 @@ class DonorAcceptorModel(PolymerDonorAcceptorBase):
             donor_list[idx], donor_list[swap_idx] = donor_list[swap_idx], donor_list[idx]
         
         donor_list[l2_donor_index], donor_list[idx_end//2] = donor_list[idx_end//2], donor_list[l2_donor_index]
+        idx_start = 20
         idx_end = len(acceptor_count_sorted)
         for i in range(top_k):
             (donor, idx), count = acceptor_count_sorted[i]

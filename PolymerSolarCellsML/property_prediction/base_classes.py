@@ -14,7 +14,8 @@ import pickle
 
 from os import path
 
-mpl.rc('font', family='Palatino Linotype')
+mpl.use('cairo')
+mpl.rc('font', family='Palatino Linotype', size=18)
 
 class PolymerMLBase:
     def __init__(self) -> None:
@@ -77,12 +78,12 @@ class PolymerMLBase:
     
 
     def single_parity_plot(self, gp, property, units,  X_train, X_test, Y_train, Y_test, fig_name, output_dir, use_log_transform=False):
-        '''Given train, test data and a model, plots a single parity plot with GPR uncertainty bars'''
+        '''Given train, test data and a model, plots a single parity plot for the given property'''
         Y_train_pred, Y_test_pred, tr_error, tt_error, tt_r2, tr_r2 = self.prediction(gp, X_train, X_test, Y_train, Y_test, verbose=True, use_log_transform=use_log_transform)
         if use_log_transform:
             Y_train = np.exp(Y_train)
             Y_test = np.exp(Y_test)
-        fig, ax = plt.subplots(1, 1, figsize=(8, 8), facecolor='w', edgecolor='k')
+        fig, ax = plt.subplots(1, 1, figsize=(8, 8))#, facecolor='w', edgecolor='k')
         lim_min = min(min(Y_train), min(Y_test))
         lim_max = max(max(Y_train), max(Y_test))
         lim = [lim_min - (lim_max - lim_min) * 0.1, lim_max + (lim_max - lim_min) * 0.1]
@@ -104,7 +105,29 @@ class PolymerMLBase:
         ax.set_xlabel(f"Experimental {property} ({units})", fontsize=18, fontweight='bold')
         ax.set_ylabel(f"ML Predicted {property} ({units})", fontsize=18, fontweight='bold')
         ax.tick_params(axis='both', which='major', labelsize=16)
+        for tick in ax.get_xticklabels():
+            tick.set_fontweight('bold')
+
+        for tick in ax.get_yticklabels():
+            tick.set_fontweight('bold')
         ax.legend(fontsize=16, loc='upper left')
+        ax.grid(False)
+
+        # Ensure axes are visible
+        ax.spines['top'].set_visible(True)
+        ax.spines['right'].set_visible(True)
+        ax.spines['bottom'].set_visible(True)
+        ax.spines['left'].set_visible(True)
+
+        # Optionally set the color of the axes spines
+        ax.spines['top'].set_color('black')
+        ax.spines['right'].set_color('black')
+        ax.spines['bottom'].set_color('black')
+        ax.spines['left'].set_color('black')
+
+        # Ensure the face color of the plot is not grey
+        fig.patch.set_facecolor('white')
+        ax.set_facecolor('white')
         fig.savefig(path.join(output_dir, fig_name))
 
 
