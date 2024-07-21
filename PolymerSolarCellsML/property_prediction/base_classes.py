@@ -15,7 +15,7 @@ import pickle
 from os import path
 
 mpl.use('cairo')
-mpl.rc('font', family='Palatino Linotype', size=18)
+mpl.rc('font', family='Liberation Sans', size=18)
 
 class PolymerMLBase:
     def __init__(self) -> None:

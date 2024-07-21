@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 
 import matplotlib as mpl
 mpl.use('cairo')
-mpl.rc('font', family='Palatino Linotype', size=18, weight='bold')
+mpl.rc('font', family='Liberation Sans', size=18, weight='bold')
 
 import umap
 

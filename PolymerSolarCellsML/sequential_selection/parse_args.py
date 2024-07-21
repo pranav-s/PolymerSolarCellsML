@@ -20,7 +20,7 @@ class Arguments:
         default='earliest', metadata={"help": "Mode for picking the simulated material history, use the median, or shortest, or longest path or earliest random seed"}
     )
     acceptor_type: str = field(
-        default='NFA', metadata={"help": "Acceptor type to use for the dataset, either FA, NFA or both"}
+        default='both', metadata={"help": "Acceptor type to use for the dataset, either FA, NFA or both"}
     )
     random_seed: int = field(
         default=47, metadata={"help": "Random seed"}
