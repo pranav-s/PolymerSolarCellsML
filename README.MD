@@ -55,10 +55,15 @@ Please cite our paper if you use the code or data in this repo.
 
 ```latex
 @article{shetty2024accelerating,
-  title={Accelerating materials discovery for polymer solar cells: Data-driven insights enabled by natural language processing},
-  author={Shetty, Pranav and Adeboye, Aishat and Gupta, Sonakshi and Zhang, Chao and Ramprasad, Rampi},
-  journal={arXiv preprint arXiv:2402.19462},
-  year={2024}
+author = {Shetty, Pranav and Adeboye, Aishat and Gupta, Sonakshi and Zhang, Chao and Ramprasad, Rampi},
+title = {Accelerating Materials Discovery for Polymer Solar Cells: Data-Driven Insights Enabled by Natural Language Processing},
+journal = {Chemistry of Materials},
+volume = {36},
+number = {16},
+pages = {7676-7689},
+year = {2024},
+doi = {10.1021/acs.chemmater.4c00709},
+URL = {https://doi.org/10.1021/acs.chemmater.4c00709},
 }
 ```
 
