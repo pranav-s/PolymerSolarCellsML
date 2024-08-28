@@ -1,6 +1,6 @@
 # Polymer Solar Cells Machine learning
 
-This repo contains code for the paper 'Accelerating materials discovery for polymer solar cells: Data-driven insights enabled by natural language processing' [[1]](https://arxiv.org/abs/2402.19462). This paper releases a data set of polymer solar cell (PSC) device characteristics that are extracted using the NLP pipeline described in Ref. [[2]](https://www.nature.com/articles/s41524-023-01003-w) and curated manually. In the paper, we trained machine learning models to predict power conversion efficiency (PCE) of PSCs. We also simulated several active learning strategies to pick out optimal donor/acceptor pairs with high PCE. We compared that against against how the field actually evolved. This exercise gave an estimate of how much faster the field could have evolved and generated several interesting insights. The code and data to reproduce our experiments is provided in this repo.
+This repo contains code for the paper 'Accelerating materials discovery for polymer solar cells: Data-driven insights enabled by natural language processing' [[1]](https://pubs.acs.org/doi/10.1021/acs.chemmater.4c00709). This paper releases a data set of polymer solar cell (PSC) device characteristics that are extracted using the NLP pipeline described in Ref. [[2]](https://www.nature.com/articles/s41524-023-01003-w) and curated manually. In the paper, we trained machine learning models to predict power conversion efficiency (PCE) of PSCs. We also simulated several active learning strategies to pick out optimal donor/acceptor pairs with high PCE. We compared that against against how the field actually evolved. This exercise gave an estimate of how much faster the field could have evolved and generated several insights on the advantages of different active learning strategies. The code and data to reproduce our experiments is provided in this repo.
 
 ## Requirements and Setup
 
@@ -69,7 +69,7 @@ URL = {https://doi.org/10.1021/acs.chemmater.4c00709},
 
 ## References
 
-[1] Shetty, P., Adeboye, A., Gupta, S., Zhang, C., & Ramprasad, R.. Accelerating materials discovery for polymer solar cells: Data-driven insights enabled by natural language processing. arXiv preprint arXiv:2402.19462 (2024)
+[1] Shetty, P., Adeboye, A., Gupta, S., Zhang, C., & Ramprasad, R.. Accelerating Materials Discovery for Polymer Solar Cells: Data-Driven Insights Enabled by Natural Language Processing. Chemistry of Materials, 36(16), 7676-7689 (2024)
 
 [2] Shetty, P., Rajan, A., Kuenneth, C., Gupta, S., Panchumarti, L., Holm, L., Zhang, C. & Ramprasad, R.  A general-purpose material property data extraction pipeline from large polymer corpora using natural language processing. npj Computational Materials 9, 52 (2023) 
 
